@@ -5,36 +5,41 @@
 #include "hash_map.hpp"
 
 class IPCCacheSHM {
+private:
+    m_private constexpr const int STRING_ARENA_SIZE = 1024 * 1024 * 1024;
+    m_private constexpr const int HASH_MAP_MAX_ROWS = 1024 * 1024;
+
+    typedef HashMap<char *, HASH_MAP_MAX_ROWS> IPCHash;
 public:
     struct SharedLayout {
-        PosixMutex   mutex;
-        uint32       maxRows;
-        uint32       stringArenaSize;
+        PosixMutex mutex;
+        uint32     maxRows;
+        uint32     stringArenaSize;
     };
 
 public:
     IPCCacheSHM(const char* shm_name);
     ~IPCCacheSHM();
 
-    void             put(const char* key, const char* value);
-    const char*      get(const char* key);
-    bool             contains(const char* key);
+    void          put(const char* key, const char* value);
+    const char*   get(const char* key);
+    bool          contains(const char* key);
 
 private:
-    void             initializeAsClient(char *stringStorage, char *hashMapStorage);
-    void             initializeAsOwner(char *hashMapStorage, uint32 hashMapSize, char *stringStorage);
-    void             mapMemToProcessMemoryAddresses();
-    void             openOrCreateShmFd(const char *shm_name);
-    uint32           allignToEigthBytes(uint32 input);
-    void             cleanup();
+    void          initializeAsClient(char *stringStorage, char *hashMapStorage);
+    void          initializeAsOwner(char *hashMapStorage, uint32 hashMapSize, char *stringStorage);
+    void          mapMemToProcessMemoryAddresses();
+    void          openOrCreateShmFd(const char *shm_name);
+    uint32        allignToEigthBytes(uint32 input);
+    void          cleanup();
 
 private:
-    const char*      shmName;
-    int              shmFd;
-    uint32           totalSize;
-    void*            baseAddress;
-    bool             mapOwner;
-    SharedLayout*    layout;
-    HashMap<char *>* hashMap;
-    StringAlloc*     stringAlloc;
+    const char*   shmName;
+    int           shmFd;
+    uint32        totalSize;
+    void*         baseAddress;
+    bool          mapOwner;
+    SharedLayout* layout;
+    IPCHash       hashMap;
+    StringAlloc   stringAlloc;
 };

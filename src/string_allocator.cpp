@@ -3,7 +3,9 @@
 #include <cstring>
 #include <stdio.h>
 
-StringAlloc::StringAlloc(char *storage_address): arena(storage_address) {}
+void StringAlloc::setStorageAddres(char* storage_address) {
+    arena = storage_address;
+}
 
 char *StringAlloc::create(const char* str) {
     char *ptr = (char *) alloc(strlen(str));

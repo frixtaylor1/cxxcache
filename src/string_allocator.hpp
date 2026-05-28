@@ -4,8 +4,7 @@
 
 struct StringAlloc {
 public:
-    StringAlloc(char *storage_address);
-
+    void setStorageAddres(char *storage_address);
     char* create(const char* str);
     void  remove(char *ptr);
 

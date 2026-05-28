@@ -16,11 +16,11 @@ m_private constexpr const int HASH_MAP_MAX_ROWS = 1024 * 1024;
 
 IPCCacheSHM::IPCCacheSHM(const char* shm_name) 
     : shmName(shm_name), shmFd(-1), totalSize(0), baseAddress(nullptr), mapOwner(false),
-        layout(nullptr), hashMap(nullptr), stringAlloc(nullptr) 
+        layout(nullptr)
 {
     uint32 layoutSize        = sizeof(SharedLayout);
     uint32 hashMapOffset     = allignToEigthBytes(layoutSize);
-    uint32 hashMapSize       = (HASH_MAP_MAX_ROWS) * sizeof(typename HashMap<char*>::Entry);
+    uint32 hashMapSize       = (HASH_MAP_MAX_ROWS) * sizeof(typename HashMap<char*, HASH_MAP_MAX_ROWS>::Entry);
     uint32 stringArenaOffset = allignToEigthBytes(hashMapOffset + hashMapSize);
     totalSize                = stringArenaOffset + STRING_ARENA_SIZE;
 
@@ -40,9 +40,6 @@ IPCCacheSHM::IPCCacheSHM(const char* shm_name)
 }
 
 IPCCacheSHM::~IPCCacheSHM() {
-    delete hashMap;
-    delete stringAlloc;
-    
     if (baseAddress && baseAddress != MAP_FAILED) {
         munmap(baseAddress, totalSize);
     }
@@ -57,9 +54,9 @@ IPCCacheSHM::~IPCCacheSHM() {
 void IPCCacheSHM::put(const char* key, const char* value) {
     layout->mutex.lock();
     try {
-        stringAlloc->create(value);
-        stringAlloc->create(key);
-        hashMap->set(key, (char*) value);
+        stringAlloc.create(value);
+        stringAlloc.create(key);
+        hashMap.set(key, (char*) value);
     } catch (...) {
         layout->mutex.unlock();
         throw;
@@ -69,21 +66,21 @@ void IPCCacheSHM::put(const char* key, const char* value) {
 
 const char* IPCCacheSHM::get(const char* key) {
     layout->mutex.lock();
-    const char* val = hashMap->get(key);
+    const char* val = hashMap.get(key);
     layout->mutex.unlock();
     return val;
 }
 
 bool IPCCacheSHM::contains(const char* key) {
     layout->mutex.lock();
-    bool exists = hashMap->exists(key);
+    bool exists = hashMap.exists(key);
     layout->mutex.unlock();
     return exists;
 }
 
 void IPCCacheSHM::initializeAsClient(char *stringStorage, char *hashMapStorage) {
-    stringAlloc = new StringAlloc(stringStorage);
-    hashMap     = new HashMap<char *>(hashMapStorage, layout->maxRows);
+    stringAlloc.setStorageAddres(stringStorage);
+    hashMap.setStorageAddress(hashMapStorage);
 }
 
 void IPCCacheSHM::initializeAsOwner(char *hashMapStorage, uint32 hashMapSize, char *stringStorage) {
@@ -93,8 +90,8 @@ void IPCCacheSHM::initializeAsOwner(char *hashMapStorage, uint32 hashMapSize, ch
 
     ::memset(hashMapStorage, 0, hashMapSize);
 
-    stringAlloc = new StringAlloc(stringStorage);
-    hashMap = new HashMap<char *>(hashMapStorage, HASH_MAP_MAX_ROWS);
+    stringAlloc.setStorageAddres(stringStorage);
+    hashMap.setStorageAddress(hashMapStorage);
 }
 
 void IPCCacheSHM::mapMemToProcessMemoryAddresses() {
