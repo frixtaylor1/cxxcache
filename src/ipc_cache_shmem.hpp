@@ -30,7 +30,7 @@ private:
     void          initializeAsOwner(char *hashMapStorage, uint32 hashMapSize, char *stringStorage);
     void          mapMemToProcessMemoryAddresses();
     void          openOrCreateShmFd(const char *shm_name);
-    uint32        allignToEigthBytes(uint32 input);
+    uint32        allignToEightBytes(uint32 input);
     void          cleanup();
 
 private:

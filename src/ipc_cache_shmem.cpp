@@ -11,17 +11,15 @@
 #include "string_allocator.hpp"
 #include "hash_map.hpp"
 
-m_private constexpr const int STRING_ARENA_SIZE = 1024 * 1024 * 1024;
-m_private constexpr const int HASH_MAP_MAX_ROWS = 1024 * 1024;
 
 IPCCacheSHM::IPCCacheSHM(const char* shm_name) 
     : shmName(shm_name), shmFd(-1), totalSize(0), baseAddress(nullptr), mapOwner(false),
         layout(nullptr)
 {
     uint32 layoutSize        = sizeof(SharedLayout);
-    uint32 hashMapOffset     = allignToEigthBytes(layoutSize);
+    uint32 hashMapOffset     = allignToEightBytes(layoutSize);
     uint32 hashMapSize       = (HASH_MAP_MAX_ROWS) * sizeof(typename HashMap<char*, HASH_MAP_MAX_ROWS>::Entry);
-    uint32 stringArenaOffset = allignToEigthBytes(hashMapOffset + hashMapSize);
+    uint32 stringArenaOffset = allignToEightBytes(hashMapOffset + hashMapSize);
     totalSize                = stringArenaOffset + STRING_ARENA_SIZE;
 
     openOrCreateShmFd(shm_name);
@@ -118,7 +116,7 @@ void IPCCacheSHM::openOrCreateShmFd(const char *shm_name) {
     }
 }
 
-uint32 IPCCacheSHM::allignToEigthBytes(uint32 input) {
+uint32 IPCCacheSHM::allignToEightBytes(uint32 input) {
     return (input + 7) & ~7;
 }
 

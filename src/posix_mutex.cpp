@@ -25,7 +25,7 @@ void PosixMutex::lock(void) {
     int rc = pthread_mutex_lock(&mutex);
 
     #define EOWNERDEAD 130
-    if (rc = EOWNERDEAD) {
+    if (rc == EOWNERDEAD) {
         pthread_mutex_consistent(&mutex);
     }
 }
