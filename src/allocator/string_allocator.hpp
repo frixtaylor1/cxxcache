@@ -4,12 +4,15 @@
 
 struct StringAlloc {
 public:
-    void setStorageAddres(char *storage_address);
-    char* create(const char* str);
-    void  remove(char *ptr);
+    void   setStorageAddres(char *storage_address);
+    char*  create(const char* str);
+    void   remove(char *ptr);
+
+    uint32 getBytesAllocated(void) const;
+    void*  getAllocatorAddress(void) const;
 
 private:
-    void* alloc(int size);
+    void* alloc(uint32 size);
     void  set(char *dest, const char* source);
 
 private:
@@ -18,5 +21,5 @@ private:
     };
 
     char *arena;
-    int  bytes = 0;
+    uint32  bytes = 0;
 } ;

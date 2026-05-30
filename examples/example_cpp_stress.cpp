@@ -4,7 +4,7 @@
 #include <chrono>
 #include <vector>
 #include <string>
-#include "./src/ipc_cache_shmem.hpp"
+#include "../src/cache/ipc_cache_shmem.hpp"
 
 const char* SHM_NAME = "/mi_cache_stress_shm";
 

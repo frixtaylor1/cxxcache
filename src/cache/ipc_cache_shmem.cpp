@@ -116,11 +116,11 @@ void IPCCacheSHM::openOrCreateShmFd(const char *shm_name) {
     }
 }
 
-uint32 IPCCacheSHM::allignToEightBytes(uint32 input) {
+uint32 IPCCacheSHM::allignToEightBytes(uint32 input) const {
     return (input + 7) & ~7;
 }
 
-void IPCCacheSHM::cleanup() {
+void IPCCacheSHM::cleanup(void) {
     if (shmFd >= 0) {
         close(shmFd);
     }

@@ -16,14 +16,14 @@ public:
 public:
     HashMap();
     
-    void            setStorageAddress(void* storageAddress);
-    void            set(const char* key, ValueType value);
-    ValueType       get(const char* key) const;
-    bool            exists(const char* key) const;
+    void      setStorageAddress(void* storageAddress);
+    void      set(const char* key, ValueType value);
+    ValueType get(const char* key) const;
+    bool      exists(const char* key) const;
 
 private:
-    uint32          getIndexOfKey(const char* key) const;
-    static uint64_t hashKey(const char* key);
+    uint32    getIndexOfKey(const char* key) const;
+    uint64_t  hashKey(const char* key) const;
 
 private:
     enum {
@@ -75,7 +75,7 @@ uint32 HashMap<ValueType, MAX_ROWS>::getIndexOfKey(const char* key) const {
 }
 
 template <class ValueType, uint32 MAX_ROWS>
-uint64_t HashMap<ValueType, MAX_ROWS>::hashKey(const char* key) {
+uint64_t HashMap<ValueType, MAX_ROWS>::hashKey(const char* key) const {
     uint64_t hash = FNV_OFFSET;
     for (const char* p = key; *p; p++) {
         hash ^= (uint64_t)(unsigned char)(*p);

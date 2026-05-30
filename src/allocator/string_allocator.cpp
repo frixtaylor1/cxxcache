@@ -17,7 +17,15 @@ void StringAlloc::remove(char *ptr) {
     ::memset(ptr, 0, strlen(ptr));
 }
 
-void *StringAlloc::alloc(int size) {
+uint32 StringAlloc::getBytesAllocated(void) const {
+    return bytes;
+}
+
+void *StringAlloc::getAllocatorAddress(void) const {
+    return (void *) & arena[0];
+}
+
+void *StringAlloc::alloc(uint32 size) {
     void *ptr = (void*) & arena[bytes];
     bytes += size + 1;
     return ptr;

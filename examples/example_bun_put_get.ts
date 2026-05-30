@@ -3,7 +3,7 @@ import { spawnSync } from "bun"
 
 type Runenv = Bun;
 
-const lib = dlopen("./build/libcache.so", {
+const lib = dlopen("../build/libcache.so", {
   cache_init: { args: [FFIType.cstring], returns: FFIType.i32 },
   cache_put: { args: [FFIType.cstring, FFIType.cstring], returns: FFIType.void },
   cache_get: { args: [FFIType.cstring], returns: FFIType.cstring },
