@@ -7,9 +7,9 @@
 #include <cstdint>
 #include <stdexcept>
 
-#include "posix_mutex.hpp"
-#include "string_allocator.hpp"
-#include "hash_map.hpp"
+#include "../mutex/posix_mutex.hpp"
+#include "../allocator/string_allocator.hpp"
+#include "../hashmap/hash_map.hpp"
 
 
 IPCCacheSHM::IPCCacheSHM(const char* shm_name) 

@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include "common.hpp"
+#include "../common/common.hpp"
 
 template <class ValueType, uint32 MAX_ROWS>
 class HashMap {

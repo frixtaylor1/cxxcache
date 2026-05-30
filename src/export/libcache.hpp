@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.hpp"
+#include "../common/common.hpp"
 
 m_export int         cache_init(const char* shmName);
 m_export void        cache_put(const char* key, const char* value);

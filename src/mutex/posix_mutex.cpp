@@ -1,6 +1,6 @@
 #include "posix_mutex.hpp"
 
-#include "common.hpp"
+#include "../common/common.hpp"
 
 PosixMutex::PosixMutex() = default;
 
@@ -22,9 +22,9 @@ void PosixMutex::shutdown(void) {
 }
 
 void PosixMutex::lock(void) {
-    int rc = pthread_mutex_lock(&mutex);
+    constexpr const uint8 EOWNERDEAD = 130;
 
-    #define EOWNERDEAD 130
+    int rc = pthread_mutex_lock(&mutex);
     if (rc == EOWNERDEAD) {
         pthread_mutex_consistent(&mutex);
     }

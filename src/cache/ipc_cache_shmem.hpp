@@ -1,8 +1,8 @@
 #pragma once
 
-#include "posix_mutex.hpp"
-#include "string_allocator.hpp"
-#include "hash_map.hpp"
+#include "../mutex/posix_mutex.hpp"
+#include "../allocator/string_allocator.hpp"
+#include "../hashmap/hash_map.hpp"
 
 class IPCCacheSHM {
 private:

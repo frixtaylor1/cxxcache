@@ -91,4 +91,3 @@ async function benchmarkGet() {
 await benchmarkPut();
 await benchmarkGet();
 
-lib.symbols.cache_destroy();

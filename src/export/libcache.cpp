@@ -1,6 +1,6 @@
 #include "libcache.hpp"
 
-#include "ipc_cache_shmem.hpp"
+#include "../cache/ipc_cache_shmem.hpp"
 
 m_private IPCCacheSHM* cache = nullptr;
 
