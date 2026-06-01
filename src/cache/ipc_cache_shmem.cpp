@@ -52,9 +52,9 @@ IPCCacheSHM::~IPCCacheSHM() {
 void IPCCacheSHM::put(const char* key, const char* value) {
     layout->mutex.lock();
     try {
-        stringAlloc.create(value);
-        stringAlloc.create(key);
-        hashMap.set(key, (char*) value);
+        char* key_ = stringAlloc.create(key);
+        char* value_ = stringAlloc.create(value);
+        hashMap.set(key_, (char*) value_);
     } catch (...) {
         layout->mutex.unlock();
         throw;
