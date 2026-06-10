@@ -22,6 +22,18 @@ m_export void cache_put(const char* key, const char* value) {
     }
 }
 
+m_export void cache_update(const char* key, const char* value) {
+    if (cache) {
+        cache->update(key, value);
+    }
+}
+
+m_export void cache_remove(const char* key) {
+    if (cache) {
+        cache->remove(key);
+    }
+}
+
 m_export const char* cache_get(const char* key) {
     if (!cache) return nullptr;
     return cache->get(key);
