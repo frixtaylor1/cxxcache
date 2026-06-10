@@ -76,6 +76,29 @@ bool IPCCacheSHM::contains(const char* key) {
     return exists;
 }
 
+void IPCCacheSHM::remove(const char* key) {
+    layout->mutex.lock();
+    hashMap.remove(key);
+    layout->mutex.unlock();
+}
+
+void IPCCacheSHM::update(const char* key, const char* value) {
+    layout->mutex.lock();
+    char* currentValue          = hashMap.get(key);
+    uint32 lengthOfCurrentValue = ::strlen(currentValue);
+    uint32 lengthOfNewValue     = ::strlen(value);
+
+    if (lengthOfCurrentValue > lengthOfNewValue) {
+        ::memset(currentValue, 0, lengthOfCurrentValue);
+        ::memcpy(currentValue, value, lengthOfNewValue);
+    } else {
+        hashMap.remove(key);
+        put(key, value);
+    }
+    
+    layout->mutex.unlock();
+}
+
 void IPCCacheSHM::initializeAsClient(char *stringStorage, char *hashMapStorage) {
     stringAlloc.setStorageAddres(stringStorage);
     hashMap.setStorageAddress(hashMapStorage);

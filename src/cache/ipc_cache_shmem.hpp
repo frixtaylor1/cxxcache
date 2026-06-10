@@ -24,6 +24,8 @@ public:
     void          put(const char* key, const char* value);
     const char*   get(const char* key);
     bool          contains(const char* key);
+    void          remove(const char* key);
+    void          update(const char* key, const char* value);
 
 private:
     void          initializeAsClient(char *stringStorage, char *hashMapStorage);
