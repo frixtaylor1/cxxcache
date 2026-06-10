@@ -60,7 +60,7 @@ bool HashMap<ValueType, MAX_ROWS>::exists(const char* key) const {
 template <class ValueType, uint32 MAX_ROWS>
 void HashMap<ValueType, MAX_ROWS>::remove(const char* key) {
     uint32 index = getIndexOfKey(key);
-    char* key_ = rows[index].key;
+    char* key_ = (char *) rows[index].key;
     char* value_ = rows[index].value;
 
     ::memset(key_, 0, ::strlen(key_));
