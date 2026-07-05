@@ -99,6 +99,14 @@ void IPCCacheSHM::update(const char* key, const char* value) {
     layout->mutex.unlock();
 }
 
+void IPCCacheSHM::lock(void) {
+    layout->mutex.lock();
+}
+
+void IPCCacheSHM::unlock(void) {
+    layout->mutex.unlock();
+}
+
 void IPCCacheSHM::initializeAsClient(char *stringStorage, char *hashMapStorage) {
     stringAlloc.setStorageAddres(stringStorage);
     hashMap.setStorageAddress(hashMapStorage);

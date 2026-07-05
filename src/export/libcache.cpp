@@ -50,3 +50,15 @@ m_export void cache_destroy(void) {
         cache = nullptr;
     }
 }
+
+m_export void cache_lock(void) {
+    if (cache) {
+        cache->lock();
+    }
+}
+
+m_export void cache_unlock(void) {
+    if (cache) {
+        cache->unlock();
+    }
+}

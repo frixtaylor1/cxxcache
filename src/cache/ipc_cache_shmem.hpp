@@ -26,6 +26,8 @@ public:
     bool          contains(const char* key);
     void          remove(const char* key);
     void          update(const char* key, const char* value);
+    void          lock(void);
+    void          unlock(void);
 
 private:
     void          initializeAsClient(char *stringStorage, char *hashMapStorage);
