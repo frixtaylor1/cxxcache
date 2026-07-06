@@ -2,12 +2,12 @@
 
 #include "../cache/ipc_cache_shmem.hpp"
 
-m_private IPCCacheSHM* cache = nullptr;
+m_private cxxcache::IPCCacheSHM* cache = nullptr;
 
 m_export int cache_init(const char* shmName) {
     try {
         if (!cache) {
-            cache = new IPCCacheSHM(shmName);
+            cache = new cxxcache::IPCCacheSHM(shmName);
         }
         return 0;
     }
@@ -60,5 +60,16 @@ m_export void cache_lock(void) {
 m_export void cache_unlock(void) {
     if (cache) {
         cache->unlock();
+    }
+}
+
+m_export const char* cache_get_nolock(const char* key) {
+    if (!cache) return nullptr;
+    return cache->get_nolock(key);
+}
+
+m_export void cache_update_nolock(const char* key, const char* value) {
+    if (cache) {
+        cache->update_nolock(key, value);
     }
 }

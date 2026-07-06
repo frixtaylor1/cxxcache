@@ -2,9 +2,10 @@
 
 #include "../mutex/posix_mutex.hpp"
 
+namespace cxxcache {
 struct StringAlloc {
 public:
-    void   setStorageAddres(char *storage_address);
+    void   setStorageAddres(char *storage_address, uint32* bytes_counter);
     char*  create(const char* str);
     void   remove(char *ptr);
 
@@ -21,5 +22,6 @@ private:
     };
 
     char *arena;
-    uint32  bytes = 0;
+    uint32 *bytes = nullptr;
 } ;
+}

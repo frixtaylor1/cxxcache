@@ -2,9 +2,10 @@
 
 #include <pthread.h>
 
-#include "imutex.hpp"
+#include "../common/common.hpp"
 
-struct PosixMutex : implements IMutex {
+namespace cxxcache {
+struct PosixMutex {
     PosixMutex();
     ~PosixMutex();
 
@@ -16,3 +17,4 @@ struct PosixMutex : implements IMutex {
 private:
     pthread_mutex_t mutex;
 };
+}

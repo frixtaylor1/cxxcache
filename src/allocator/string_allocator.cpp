@@ -3,8 +3,10 @@
 #include <cstring>
 #include <stdio.h>
 
-void StringAlloc::setStorageAddres(char* storage_address) {
+namespace cxxcache {
+void StringAlloc::setStorageAddres(char* storage_address, uint32* bytes_counter) {
     arena = storage_address;
+    bytes = bytes_counter;
 }
 
 char *StringAlloc::create(const char* str) {
@@ -18,7 +20,7 @@ void StringAlloc::remove(char *ptr) {
 }
 
 uint32 StringAlloc::getBytesAllocated(void) const {
-    return bytes;
+    return bytes ? *bytes : 0;
 }
 
 void *StringAlloc::getAllocatorAddress(void) const {
@@ -26,11 +28,12 @@ void *StringAlloc::getAllocatorAddress(void) const {
 }
 
 void *StringAlloc::alloc(uint32 size) {
-    void *ptr = (void*) & arena[bytes];
-    bytes += size + 1;
+    void *ptr = (void*) & arena[*bytes];
+    *bytes += size + 1;
     return ptr;
 }
 
 void StringAlloc::set(char *dest, const char* source) {
     ::memcpy((void *) dest, (const void *) source, (int) strlen(source) + 1);
+}
 }

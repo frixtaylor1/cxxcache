@@ -11,3 +11,5 @@ m_export bool        cache_contains(const char* key);
 m_export void        cache_destroy(void);
 m_export void        cache_lock(void);
 m_export void        cache_unlock(void);
+m_export const char* cache_get_nolock(const char* key);
+m_export void        cache_update_nolock(const char* key, const char* value);

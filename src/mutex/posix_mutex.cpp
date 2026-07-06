@@ -1,7 +1,9 @@
 #include "posix_mutex.hpp"
 
+#include <cerrno>
 #include "../common/common.hpp"
 
+namespace cxxcache {
 PosixMutex::PosixMutex() = default;
 
 PosixMutex::~PosixMutex() = default;
@@ -22,8 +24,6 @@ void PosixMutex::shutdown(void) {
 }
 
 void PosixMutex::lock(void) {
-    constexpr const uint8 EOWNERDEAD = 130;
-
     int rc = pthread_mutex_lock(&mutex);
     if (rc == EOWNERDEAD) {
         pthread_mutex_consistent(&mutex);
@@ -32,4 +32,5 @@ void PosixMutex::lock(void) {
 
 void PosixMutex::unlock(void) {
     pthread_mutex_unlock(&mutex);
+}
 }
